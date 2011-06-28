@@ -12,9 +12,9 @@ app.post('/', function(req, res, next) {
 });
 
 app.all('/', function(req, res) {
-  var output;
+  var output = "";
   for (var i in buffer) {
-    output += buffer[i] + '<br>';
+    output += buffer[i].replace('<','&lt;').replace('>','&gt;') + '<br>';
   }
   res.send(
     '<form action="/" method="post">'+
@@ -35,7 +35,7 @@ app.get('/', function(req, res) {
   //res.send('Hello World');
 });*/
 
-app.listen(3030);
+app.listen(8000);
 /*
 
 http.createServer(function(req, res) {
