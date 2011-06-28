@@ -3,10 +3,16 @@ var express = require('express')
 
 app.use(express.bodyParser());
 
+app.configure(function() {
+  app.set('views', __dirname + '/views');
+  app.use(express.static(__dirname + '/public'));
+});
+
 var chatBuffer = [];
 var nameBuffer = [];
-var styleBuffer = ['style1', 'style2', 'style3'];
+var styleBuffer = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6', 'style7', 'style8'];
 var nameMemBuffer = [];
+
 
 app.post('/', function(req, res, next) {
   if ((req.body.chat.name.length > 0) && (req.body.chat.content.length > 0)) {
@@ -25,23 +31,27 @@ app.all('/', function(req, res) {
   var output = "";
   var stylin = "";
   var nameIndex = "";
+  var chatlines = [];
 
   for (var i in chatBuffer) {
-    nameIndex = nameMemBuffer.indexOf(nameBuffer[i]);
+    nameIndex = nameMemBuffer.indexOf(nameBuffer[i]); 
     if ((nameIndex == -1) || (nameIndex >= styleBuffer.length))  {
       stylin = "none";
     } else {
       stylin = styleBuffer[nameMemBuffer.indexOf(nameBuffer[i])];
     }
-    output += "<span class='" + stylin + "'>" + stylin + nameBuffer[i] + "</span>:" + chatBuffer[i] + '<br>';
+    output = { "stylin": stylin, "message": chatBuffer[i], "name": nameBuffer[i] };
+    chatlines.push(output);
   }
-  res.send(
-    '<form action="/" method="post">'+
-    '<input type="text" name="chat[name]"><br>'+
-    '<input type="text" name="chat[content]"><br>'+
-    '<input type="submit" value="Upload">'+
-    '</form>' + output
-  );  
+
+  res.render('index.jade', 
+    { locals: 
+      { output: output,
+        chatlines: chatlines
+      }
+    }
+  );
+
 }); 
 
 app.listen(8000);

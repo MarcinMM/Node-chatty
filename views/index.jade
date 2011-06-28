@@ -1,0 +1,14 @@
+
+h1 hidden rebel chat
+
+ul.convo
+  - for (var i in chatlines)
+    li(class=chatlines[i].stylin)
+      p.message= chatlines[i].message
+      span(class= chatlines[i].stylin+'name')= chatlines[i].name
+      span.time [6.27 | 10:35]
+
+form(method="POST", action="/")
+  input.name(name='chat[name]')
+  input.message(name='chat[content]')
+  input.submit(type="submit", value="Send")

@@ -1,0 +1,138 @@
+/* line 3 */
+body {
+  font-family: Verdana;
+  font-size: 12px;
+  background: black url() no-repeat;
+  color: #f1f1f1;
+}
+
+/* line 9 */
+h1 {
+  color: #222222;
+  text-shadow: #343434 0px -1px 0px;
+  font-weight: normal;
+  font-family: "Palatino", verdana, arial, times, serif;
+  text-align: right;
+}
+
+/* line 15 */
+.chat {
+  width: 700px;
+  margin: 0 auto;
+  height: 600px;
+}
+/* line 19 */
+.chat ul.convo {
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+}
+/* line 24 */
+.chat ul.convo li {
+  padding: 2px 2px 2px 35px;
+}
+/* line 26 */
+.chat ul.convo li.style1 {
+  background: url(/images/rebelicons.png) no-repeat -1px 8px;
+}
+/* line 28 */
+.chat ul.convo li.style2 {
+  background: url(/images/rebelicons.png) no-repeat -1px -421px;
+}
+/* line 31 */
+.chat ul.convo li.style3 {
+  background: url(/images/rebelicons.png) no-repeat -1px -233px;
+}
+/* line 33 */
+.chat ul.convo li.style4 {
+  background: url(/images/rebelicons.png) no-repeat -1px -170px;
+}
+/* line 35 */
+.chat ul.convo li.style5 {
+  background: url(/images/rebelicons.png) no-repeat -1px -104px;
+}
+/* line 37 */
+.chat ul.convo li.style6 {
+  background: url(/images/rebelicons.png) no-repeat -1px -295px;
+}
+/* line 39 */
+.chat ul.convo li.style7 {
+  background: url(/images/rebelicons.png) no-repeat -1px -351px;
+}
+/* line 41 */
+.chat ul.convo li.style8 {
+  background: url(/images/rebelicons.png) no-repeat -1px -47px;
+}
+/* line 43 */
+.chat span.name {
+  font-size: 10px;
+}
+/* line 45 */
+.chat .style1name {
+  color: #52baff;
+}
+/* line 47 */
+.chat .style2name {
+  color: #6bde31;
+}
+/* line 49 */
+.chat .style3name {
+  color: #c7a733;
+}
+/* line 51 */
+.chat .style4name {
+  color: #c73638;
+}
+/* line 53 */
+.chat .style5name {
+  color: #a88a68;
+}
+/* line 55 */
+.chat .style6name {
+  color: #a85a9f;
+}
+/* line 57 */
+.chat .style7name {
+  color: #40a896;
+}
+/* line 59 */
+.chat .style8name {
+  color: #dad111;
+}
+/* line 62 */
+.chat .time {
+  color: #575757;
+  font-size: 6px;
+}
+/* line 65 */
+.chat p.message {
+  margin: 3px 0 0 0;
+  border-top: 1px dotted #222222;
+  color: #f1f1f1;
+}
+
+/* line 72 */
+form {
+  padding: 10px 5px;
+}
+/* line 74 */
+form input {
+  border: 1px solid #777777;
+  background: #555555 url() no-repeat;
+  color: #cccccc;
+  padding: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -o-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
+}
+/* line 81 */
+form .name {
+  width: 75px;
+}
+/* line 83 */
+form .message {
+  width: 575px;
+}
