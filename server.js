@@ -3,65 +3,45 @@ var express = require('express')
 
 app.use(express.bodyParser());
 
-var buffer = [];
+var chatBuffer = [];
+var nameBuffer = [];
+var styleBuffer = ['style1', 'style2', 'style3'];
+var nameMemBuffer = [];
 
 app.post('/', function(req, res, next) {
-  console.log(req.body.chat);
-  buffer.push(req.body.chat.content);
+  if ((req.body.chat.name.length > 0) && (req.body.chat.content.length > 0)) {
+    var name = req.body.chat.name.replace('<','&lt;').replace('>','&gt;');
+    nameBuffer.push(name);
+    chatBuffer.push(req.body.chat.content.replace('<','&lt;').replace('>','&gt;'));
+    // stylin'
+    if (nameMemBuffer.indexOf(name) == -1) {
+      nameMemBuffer.push(name);
+    }
+  }
   next();
 });
 
 app.all('/', function(req, res) {
   var output = "";
-  for (var i in buffer) {
-    output += buffer[i].replace('<','&lt;').replace('>','&gt;') + '<br>';
+  var stylin = "";
+  var nameIndex = "";
+
+  for (var i in chatBuffer) {
+    nameIndex = nameMemBuffer.indexOf(nameBuffer[i]);
+    if ((nameIndex == -1) || (nameIndex >= styleBuffer.length))  {
+      stylin = "none";
+    } else {
+      stylin = styleBuffer[nameMemBuffer.indexOf(nameBuffer[i])];
+    }
+    output += "<span class='" + stylin + "'>" + stylin + nameBuffer[i] + "</span>:" + chatBuffer[i] + '<br>';
   }
   res.send(
     '<form action="/" method="post">'+
-    '<input type="text" name="chat[content]"><br>'+
     '<input type="text" name="chat[name]"><br>'+
+    '<input type="text" name="chat[content]"><br>'+
     '<input type="submit" value="Upload">'+
     '</form>' + output
   );  
 }); 
-/*
-app.get('/', function(req, res) {
-  res.send(
-    '<form action="/post" enctype="multipart/form-data" method="post">'+
-    '<input type="text" name="textcontent"><br>'+
-    '<input type="submit" value="Upload">'+
-    '</form>'
-  );
-  //res.send('Hello World');
-});*/
 
 app.listen(8000);
-/*
-
-http.createServer(function(req, res) {
-  if (req.method.toLowerCase() == 'post') {
-    // parse a file upload
-    var form = new formidable.IncomingForm();
-    form.parse(req, function(err, fields, files) {
-      res.writeHead(200, {'content-type': 'text/html'});
-      res.write('received upload:\n\n');
-      res.write(sys.inspect({fields: fields, files: files}));
-      res.write(
-        '<form action="" enctype="multipart/form-data" method="post">'+
-        '<input type="text" name="title"><br>'+
-        '<input type="submit" value="Upload">'+
-        '</form>'
-      );
-      res.end();
-    });
-  }
-
-  //res.writeHead(200, {'content-type': 'text/html'});
-  res.write(
-    '<form action="" enctype="multipart/form-data" method="post">'+
-    '<input type="text" name="title"><br>'+
-    '<input type="submit" value="Upload">'+
-    '</form>'
-  );
-  res.end();
-}).listen(1337);*/
