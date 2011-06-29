@@ -1,5 +1,6 @@
 var express = require('express')
-  , app = express.createServer();
+  , app = express.createServer()
+  , io = require('socket.io').listen(app);
 
 app.use(express.bodyParser());
 
@@ -8,48 +9,39 @@ app.configure(function() {
   app.use(express.static(__dirname + '/public'));
 });
 
-var chatBuffer = [];
-var nameBuffer = [];
 var styleBuffer = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6', 'style7', 'style8'];
 var nameMemBuffer = [];
 
+io.sockets.on('connection', function (socket) {
+  socket.on('chatSending', function (data) {
 
-app.post('/', function(req, res, next) {
-  if ((req.body.chat.name.length > 0) && (req.body.chat.content.length > 0)) {
-    var name = req.body.chat.name.replace('<','&lt;').replace('>','&gt;');
-    nameBuffer.push(name);
-    chatBuffer.push(req.body.chat.content.replace('<','&lt;').replace('>','&gt;'));
-    // stylin'
-    if (nameMemBuffer.indexOf(name) == -1) {
-      nameMemBuffer.push(name);
+    if ((data.name.length > 0) && (data.content.length > 0)) {
+      var chatName = data.name.replace('<','&lt;').replace('>','&gt;');
+      var chatContent = data.content.replace('<','&lt;').replace('>','&gt;');
+      // stylin'
+      if (nameMemBuffer.indexOf(chatName) == -1) {
+        nameMemBuffer.push(chatName);
+      }
+
+      // pick style from style array
+      nameIndex = nameMemBuffer.indexOf(chatName); 
+      if (nameIndex >= styleBuffer.length)  {
+        stylin = "none";
+      } else {
+        stylin = styleBuffer[nameMemBuffer.indexOf(chatName)];
+      }
+
+      var timeStamp = new Date();
+
+      socket.broadcast.emit('chatReceived', { name: chatName, content: chatContent, stylin: stylin, time: timeStamp.toTimeString()});
+      socket.emit('chatReceived', { name: chatName, content: chatContent, stylin: stylin, time: timeStamp.toTimeString()});
     }
-  }
-  next();
+  });
 });
 
 app.all('/', function(req, res) {
-  var output = "";
-  var stylin = "";
-  var nameIndex = "";
-  var chatlines = [];
 
-  for (var i in chatBuffer) {
-    nameIndex = nameMemBuffer.indexOf(nameBuffer[i]); 
-    if ((nameIndex == -1) || (nameIndex >= styleBuffer.length))  {
-      stylin = "none";
-    } else {
-      stylin = styleBuffer[nameMemBuffer.indexOf(nameBuffer[i])];
-    }
-    output = { "stylin": stylin, "message": chatBuffer[i], "name": nameBuffer[i] };
-    chatlines.push(output);
-  }
-
-  res.render('index.jade', 
-    { locals: 
-      { output: output,
-        chatlines: chatlines
-      }
-    }
+  res.render('index.jade'
   );
 
 }); 
