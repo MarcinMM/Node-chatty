@@ -13,6 +13,7 @@ var styleBuffer = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6', '
 var nameMemBuffer = [];
 
 io.sockets.on('connection', function (socket) {
+  console.log('connected');
   socket.on('chatSending', function (data) {
 
     if ((data.name.length > 0) && (data.content.length > 0)) {
@@ -32,7 +33,6 @@ io.sockets.on('connection', function (socket) {
       }
 
       var timeStamp = new Date();
-
       socket.broadcast.emit('chatReceived', { name: chatName, content: chatContent, stylin: stylin, time: timeStamp.toTimeString()});
       socket.emit('chatReceived', { name: chatName, content: chatContent, stylin: stylin, time: timeStamp.toTimeString()});
     }

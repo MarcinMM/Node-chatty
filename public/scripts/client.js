@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  var socket = io.connect('http://localhost');
+  var socket = io.connect(window.location.hostname);
   socket.on('chatReceived', function (data) {
     addRow(data);
     removeRow();
@@ -33,6 +33,10 @@ $(document).ready(function() {
   	newLI.appendChild(newName);
   	newLI.appendChild(newTime);
   	$('.convo').append(newLI);
+
+	// scroll to bottom
+	var offsettop = parseInt($(document).height());
+	window.scrollTo(0,offsettop);
   };
 
   var removeRow = function() {
