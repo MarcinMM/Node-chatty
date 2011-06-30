@@ -2,13 +2,14 @@
 h1 hidden rebel chat
 
 ul.convo
-  //- for (var i in chatlines)
-  //-  li(class=chatlines[i].stylin)
-  //-    p.message= chatlines[i].message
-  //-    span(class= chatlines[i].stylin+'name')= chatlines[i].name
-  //-    span.time [6.27 | 10:35]
 
 form#chatForm(method="POST", action="/")
   input#name.name(name='chat[name]')
   input#content.message(name='chat[content]')
   input.submit(type="submit", value="Send")
+
+#permission
+  .request
+    p You want ... notifications?
+    a.yes(href="javascript:void(0);") Feel the power of this fully operational nodechatty!
+    a.no(href="javascript:void(0);") I'll never join you!
